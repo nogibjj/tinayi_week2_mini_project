@@ -1,6 +1,7 @@
 """
 Main code
 """
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -37,7 +38,10 @@ def histogram(a):
         plt.ylabel("Frequency")
         plt.title(f"Histogram of {column}")
         plt.grid(True)
-        plt.show()  # Display the histogram for the current column
+        #plt.show()  # Display the histogram for the current column
+
+        plt.savefig("output/histogram.png", format="png")
+        plt.close()
 
 
 # Generate scatter plot for the 4th column(resting blood pressure) and the 1st column (age) in heart.csv
@@ -51,12 +55,17 @@ def scatter_age_blood_pressure(a):
     plt.title("Scatter Plot: Age vs. Resting Blood Pressure")
     plt.grid(True)
     # plt.legend()
-    plt.show()
+    #plt.show()
+
+    plt.savefig("output/scatter.png", format="png")
+    plt.close()
 
 
 if __name__ == "__main__":
+    output_dir = "output"
+    os.makedirs(output_dir, exist_ok=True)
     readfile("heart.csv")
-    output = summary("heart.csv")
+    summary("heart.csv").to_html("output/describe_results.html", index=False)
     histogram("heart.csv")
     scatter_age_blood_pressure("heart.csv")
-    output.to_html("output.html", index=False)
+    
